@@ -5,10 +5,15 @@ import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.Article;
+import org.skypro.skyshop.search.SearchEngine;
+
+import java.util.Arrays;
 
 public class App {
 
     public static void main(String[] args) {
+
         Product milk = new SimpleProduct("Молоко", 100);
         Product bread = new SimpleProduct("Хлеб", 80);
         Product cheese = new DiscountedProduct("Сыр", 300, 20);
@@ -23,7 +28,6 @@ public class App {
         basket.addProduct(cheese);
         basket.addProduct(tea);
         basket.addProduct(coffee);
-
         basket.addProduct(butter);
 
         basket.printBasket();
@@ -31,7 +35,6 @@ public class App {
         System.out.println("Общая стоимость корзины: " + basket.getTotalPrice());
 
         System.out.println("Есть ли Хлеб: " + basket.containsProduct("Хлеб"));
-
         System.out.println("Есть ли Вода: " + basket.containsProduct("Вода"));
 
         basket.clearBasket();
@@ -41,5 +44,37 @@ public class App {
         System.out.println("Стоимость пустой корзины: " + basket.getTotalPrice());
 
         System.out.println("Есть ли Хлеб в пустой корзине: " + basket.containsProduct("Хлеб"));
+
+        SearchEngine searchEngine = new SearchEngine(20);
+
+        searchEngine.add(milk);
+        searchEngine.add(bread);
+        searchEngine.add(cheese);
+        searchEngine.add(tea);
+        searchEngine.add(coffee);
+        searchEngine.add(butter);
+
+        Article article1 = new Article(
+                "Молочные продукты",
+                "Молоко и сыр богаты кальцием."
+        );
+
+        Article article2 = new Article(
+                "Кофе",
+                "Кофе помогает взбодриться утром."
+        );
+
+        Article article3 = new Article(
+                "Чай",
+                "Зеленый чай полезен для здоровья."
+        );
+
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+
+        System.out.println(Arrays.toString(searchEngine.search("Мол")));
+        System.out.println(Arrays.toString(searchEngine.search("Кофе")));
+        System.out.println(Arrays.toString(searchEngine.search("чай")));
     }
 }
