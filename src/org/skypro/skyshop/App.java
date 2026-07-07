@@ -6,6 +6,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
+import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.Arrays;
@@ -13,6 +14,24 @@ import java.util.Arrays;
 public class App {
 
     public static void main(String[] args) {
+
+        try {
+            new SimpleProduct("", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            new SimpleProduct("Хлеб", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            new DiscountedProduct("Сыр", 300, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
 
         Product milk = new SimpleProduct("Молоко", 100);
         Product bread = new SimpleProduct("Хлеб", 80);
@@ -76,5 +95,13 @@ public class App {
         System.out.println(Arrays.toString(searchEngine.search("Мол")));
         System.out.println(Arrays.toString(searchEngine.search("Кофе")));
         System.out.println(Arrays.toString(searchEngine.search("чай")));
+
+        try {
+            System.out.println(searchEngine.searchBest("Кофе"));
+            System.out.println(searchEngine.searchBest("Мол"));
+            System.out.println(searchEngine.searchBest("Несуществующий"));
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
