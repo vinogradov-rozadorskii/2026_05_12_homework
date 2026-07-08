@@ -28,7 +28,25 @@ public class App {
         }
 
         try {
+            new SimpleProduct("Хлеб", -100);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
             new DiscountedProduct("Сыр", 300, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            new DiscountedProduct("Сыр", -300, 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            new DiscountedProduct("Сыр", 300, -10);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -95,6 +113,18 @@ public class App {
         System.out.println(Arrays.toString(searchEngine.search("Мол")));
         System.out.println(Arrays.toString(searchEngine.search("Кофе")));
         System.out.println(Arrays.toString(searchEngine.search("чай")));
+
+        try {
+            System.out.println(Arrays.toString(searchEngine.search("")));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            System.out.println(Arrays.toString(searchEngine.search(null)));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
 
         try {
             System.out.println(searchEngine.searchBest("Кофе"));
