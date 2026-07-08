@@ -18,6 +18,11 @@ public class SearchEngine {
     }
 
     public Searchable[] search(String searchTerm) {
+
+        if (searchTerm == null || searchTerm.isBlank()) {
+            throw new IllegalArgumentException("Поисковый запрос не может быть пустым.");
+        }
+
         Searchable[] result = new Searchable[5];
         int count = 0;
 
