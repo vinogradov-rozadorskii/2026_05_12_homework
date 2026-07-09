@@ -1,20 +1,16 @@
 package org.skypro.skyshop.search;
 
+import java.util.LinkedList;
+
 public class SearchEngine {
 
-    private Searchable[] searchables;
+    private final LinkedList<Searchable> searchables = new LinkedList<>();
 
     public SearchEngine(int size) {
-        searchables = new Searchable[size];
     }
 
     public void add(Searchable searchable) {
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = searchable;
-                return;
-            }
-        }
+        searchables.add(searchable);
     }
 
     public Searchable[] search(String searchTerm) {
@@ -23,23 +19,15 @@ public class SearchEngine {
             throw new IllegalArgumentException("Поисковый запрос не может быть пустым.");
         }
 
-        Searchable[] result = new Searchable[5];
-        int count = 0;
+        LinkedList<Searchable> result = new LinkedList<>();
 
         for (Searchable searchable : searchables) {
-            if (searchable != null &&
-                    searchable.getSearchTerm().contains(searchTerm)) {
-
-                result[count] = searchable;
-                count++;
-
-                if (count == 5) {
-                    break;
-                }
+            if (searchable.getSearchTerm().contains(searchTerm)) {
+                result.add(searchable);
             }
         }
 
-        return result;
+        return result.toArray(new Searchable[0]);
     }
 
     public Searchable searchBest(String search) throws BestResultNotFound {
@@ -47,9 +35,6 @@ public class SearchEngine {
         int maxCount = 0;
 
         for (Searchable searchable : searchables) {
-            if (searchable == null) {
-                continue;
-            }
 
             String text = searchable.getSearchTerm();
             int count = 0;
