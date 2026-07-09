@@ -10,6 +10,7 @@ import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class App {
 
@@ -65,7 +66,6 @@ public class App {
         basket.addProduct(cheese);
         basket.addProduct(tea);
         basket.addProduct(coffee);
-        basket.addProduct(butter);
 
         basket.printBasket();
 
@@ -73,6 +73,27 @@ public class App {
 
         System.out.println("Есть ли Хлеб: " + basket.containsProduct("Хлеб"));
         System.out.println("Есть ли Вода: " + basket.containsProduct("Вода"));
+
+        System.out.println();
+        System.out.println("Удаляем существующий продукт:");
+
+        List<Product> removedProducts = basket.removeProductByName("Хлеб");
+        System.out.println(removedProducts);
+
+        basket.printBasket();
+
+        System.out.println();
+        System.out.println("Удаляем несуществующий продукт:");
+
+        removedProducts = basket.removeProductByName("Вода");
+
+        if (removedProducts.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            System.out.println(removedProducts);
+        }
+
+        basket.printBasket();
 
         basket.clearBasket();
 
