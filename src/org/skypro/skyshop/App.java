@@ -8,8 +8,8 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
 import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class App {
@@ -131,18 +131,18 @@ public class App {
         searchEngine.add(article2);
         searchEngine.add(article3);
 
-        System.out.println(Arrays.toString(searchEngine.search("Мол")));
-        System.out.println(Arrays.toString(searchEngine.search("Кофе")));
-        System.out.println(Arrays.toString(searchEngine.search("чай")));
+        System.out.println(searchEngine.search("Мол").values());
+        System.out.println(searchEngine.search("Кофе").values());
+        System.out.println(searchEngine.search("чай").values());
 
         try {
-            System.out.println(Arrays.toString(searchEngine.search("")));
+            System.out.println(searchEngine.search("").values());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
 
         try {
-            System.out.println(Arrays.toString(searchEngine.search(null)));
+            System.out.println(searchEngine.search(null).values());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

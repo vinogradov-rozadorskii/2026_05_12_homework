@@ -1,6 +1,7 @@
 package org.skypro.skyshop.search;
 
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 public class SearchEngine {
 
@@ -13,21 +14,21 @@ public class SearchEngine {
         searchables.add(searchable);
     }
 
-    public Searchable[] search(String searchTerm) {
+    public TreeMap<String, Searchable> search(String searchTerm) {
 
         if (searchTerm == null || searchTerm.isBlank()) {
             throw new IllegalArgumentException("Поисковый запрос не может быть пустым.");
         }
 
-        LinkedList<Searchable> result = new LinkedList<>();
+        TreeMap<String, Searchable> result = new TreeMap<>();
 
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().contains(searchTerm)) {
-                result.add(searchable);
+                result.put(searchable.getName(), searchable);
             }
         }
 
-        return result.toArray(new Searchable[0]);
+        return result;
     }
 
     public Searchable searchBest(String search) throws BestResultNotFound {
