@@ -3,6 +3,7 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +18,10 @@ public class ProductBasket {
     }
 
     public int getTotalPrice() {
-        int total = 0;
-
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                total += product.getPrice();
-            }
-        }
-
-        return total;
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     public void printBasket() {
@@ -34,14 +30,12 @@ public class ProductBasket {
             return;
         }
 
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                System.out.println(product);
-            }
-        }
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(System.out::println);
 
         System.out.println("Итого: " + getTotalPrice());
-        System.out.println("Специальных товаров: " + getSpecialProductCount());
+        System.out.println("Специальных товаров: " + getSpecialCount());
     }
 
     public boolean containsProduct(String productName) {
@@ -52,18 +46,11 @@ public class ProductBasket {
         products.clear();
     }
 
-    public int getSpecialProductCount() {
-        int count = 0;
-
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                if (product.isSpecial()) {
-                    count++;
-                }
-            }
-        }
-
-        return count;
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public List<Product> removeProductByName(String name) {
