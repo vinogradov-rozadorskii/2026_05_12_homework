@@ -2,6 +2,7 @@ package org.skypro.skyshop.search;
 
 import java.util.HashSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
 
@@ -20,15 +21,11 @@ public class SearchEngine {
             throw new IllegalArgumentException("Поисковый запрос не может быть пустым.");
         }
 
-        TreeSet<Searchable> result = new TreeSet<>(new SearchableComparator());
-
-        for (Searchable searchable : searchables) {
-            if (searchable.getSearchTerm().contains(searchTerm)) {
-                result.add(searchable);
-            }
-        }
-
-        return result;
+        return searchables.stream()
+                .filter(searchable -> searchable.getSearchTerm().contains(searchTerm))
+                .collect(Collectors.toCollection(
+                        () -> new TreeSet<>(new SearchableComparator())
+                ));
     }
 
     public Searchable searchBest(String search) throws BestResultNotFound {
